@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TPAutoEcoleModelStoreContainer" CdmEntityContainer="TPAutoEcoleEntities">
+    <EntitySetMapping Name="Eleve">
+      <EntityTypeMapping TypeName="TPAutoEcoleModel.Eleve">
+        <MappingFragment StoreEntitySet="Eleve">
+          <ScalarProperty Name="dateInscription" ColumnName="dateInscription" />
+          <ScalarProperty Name="cp" ColumnName="cp" />
+          <ScalarProperty Name="ville" ColumnName="ville" />
+          <ScalarProperty Name="adresse" ColumnName="adresse" />
+          <ScalarProperty Name="prenom" ColumnName="prenom" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Lecon">
+      <EntityTypeMapping TypeName="TPAutoEcoleModel.Lecon">
+        <MappingFragment StoreEntitySet="Lecon">
+          <ScalarProperty Name="idVoiture" ColumnName="idVoiture" />
+          <ScalarProperty Name="idEleve" ColumnName="idEleve" />
+          <ScalarProperty Name="estEffectuee" ColumnName="estEffectuee" />
+          <ScalarProperty Name="duree" ColumnName="duree" />
+          <ScalarProperty Name="dateLecon" ColumnName="dateLecon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Voiture">
+      <EntityTypeMapping TypeName="TPAutoEcoleModel.Voiture">
+        <MappingFragment StoreEntitySet="Voiture">
+          <ScalarProperty Name="estVoiture" ColumnName="estVoiture" />
+          <ScalarProperty Name="modele" ColumnName="modele" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TPAutoEcoleModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="TPAutoEcoleEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Eleve" EntityType="TPAutoEcoleModel.Eleve" />
+    <EntitySet Name="Lecon" EntityType="TPAutoEcoleModel.Lecon" />
+    <EntitySet Name="Voiture" EntityType="TPAutoEcoleModel.Voiture" />
+    <AssociationSet Name="FK_Lecon_Eleve" Association="TPAutoEcoleModel.FK_Lecon_Eleve">
+      <End Role="Eleve" EntitySet="Eleve" />
+      <End Role="Lecon" EntitySet="Lecon" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Lecon_Voiture" Association="TPAutoEcoleModel.FK_Lecon_Voiture">
+      <End Role="Voiture" EntitySet="Voiture" />
+      <End Role="Lecon" EntitySet="Lecon" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Eleve">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Guid" Name="id" Nullable="false" />
+    <Property Type="String" Name="nom" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="prenom" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="adresse" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ville" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="cp" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="dateInscription" Nullable="false" />
+    <NavigationProperty Name="Lecon" Relationship="TPAutoEcoleModel.FK_Lecon_Eleve" FromRole="Eleve" ToRole="Lecon" />
+  </EntityType>
+  <EntityType Name="Lecon">
+    <Key>
+      <PropertyRef Name="idEleve" />
+      <PropertyRef Name="idVoiture" />
+    </Key>
+    <Property Type="DateTime" Name="dateLecon" Nullable="false" />
+    <Property Type="Int32" Name="duree" Nullable="false" />
+    <Property Type="Boolean" Name="estEffectuee" />
+    <Property Type="Guid" Name="idEleve" Nullable="false" />
+    <Property Type="Guid" Name="idVoiture" Nullable="false" />
+    <NavigationProperty Name="Eleve" Relationship="TPAutoEcoleModel.FK_Lecon_Eleve" FromRole="Lecon" ToRole="Eleve" />
+    <NavigationProperty Name="Voiture" Relationship="TPAutoEcoleModel.FK_Lecon_Voiture" FromRole="Lecon" ToRole="Voiture" />
+  </EntityType>
+  <EntityType Name="Voiture">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Guid" Name="id" Nullable="false" />
+    <Property Type="String" Name="modele" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="estVoiture" Nullable="false" />
+    <NavigationProperty Name="Lecon" Relationship="TPAutoEcoleModel.FK_Lecon_Voiture" FromRole="Voiture" ToRole="Lecon" />
+  </EntityType>
+  <Association Name="FK_Lecon_Eleve">
+    <End Type="TPAutoEcoleModel.Eleve" Role="Eleve" Multiplicity="1" />
+    <End Type="TPAutoEcoleModel.Lecon" Role="Lecon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eleve">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Lecon">
+        <PropertyRef Name="idEleve" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Lecon_Voiture">
+    <End Type="TPAutoEcoleModel.Voiture" Role="Voiture" Multiplicity="1" />
+    <End Type="TPAutoEcoleModel.Lecon" Role="Lecon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Voiture">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Lecon">
+        <PropertyRef Name="idVoiture" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

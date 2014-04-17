@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TPAutoEcoleModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="TPAutoEcoleModelStoreContainer">
+    <EntitySet Name="Eleve" EntityType="TPAutoEcoleModel.Store.Eleve" store:Type="Tables" />
+    <EntitySet Name="Lecon" EntityType="TPAutoEcoleModel.Store.Lecon" store:Type="Tables" />
+    <EntitySet Name="Voiture" EntityType="TPAutoEcoleModel.Store.Voiture" store:Type="Tables" />
+    <AssociationSet Name="FK_Lecon_Eleve" Association="TPAutoEcoleModel.Store.FK_Lecon_Eleve">
+      <End Role="Eleve" EntitySet="Eleve" />
+      <End Role="Lecon" EntitySet="Lecon" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Lecon_Voiture" Association="TPAutoEcoleModel.Store.FK_Lecon_Voiture">
+      <End Role="Voiture" EntitySet="Voiture" />
+      <End Role="Lecon" EntitySet="Lecon" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Eleve">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="nom" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="prenom" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="adresse" Type="nvarchar" MaxLength="500" />
+    <Property Name="ville" Type="nvarchar" MaxLength="200" />
+    <Property Name="cp" Type="nvarchar" MaxLength="20" />
+    <Property Name="dateInscription" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Lecon">
+    <Key>
+      <PropertyRef Name="idEleve" />
+      <PropertyRef Name="idVoiture" />
+    </Key>
+    <Property Name="dateLecon" Type="datetime" Nullable="false" />
+    <Property Name="duree" Type="int" Nullable="false" />
+    <Property Name="estEffectuee" Type="bit" />
+    <Property Name="idEleve" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="idVoiture" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Voiture">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="modele" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="estVoiture" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Lecon_Eleve">
+    <End Role="Eleve" Type="TPAutoEcoleModel.Store.Eleve" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Lecon" Type="TPAutoEcoleModel.Store.Lecon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eleve">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Lecon">
+        <PropertyRef Name="idEleve" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Lecon_Voiture">
+    <End Role="Voiture" Type="TPAutoEcoleModel.Store.Voiture" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Lecon" Type="TPAutoEcoleModel.Store.Lecon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Voiture">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Lecon">
+        <PropertyRef Name="idVoiture" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

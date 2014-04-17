@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TPAutoEcoleModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="TPAutoEcoleModelStoreContainer">
+          <EntitySet Name="Eleve" EntityType="TPAutoEcoleModel.Store.Eleve" store:Type="Tables" />
+          <EntitySet Name="Lecon" EntityType="TPAutoEcoleModel.Store.Lecon" store:Type="Tables" />
+          <EntitySet Name="Voiture" EntityType="TPAutoEcoleModel.Store.Voiture" store:Type="Tables" />
+          <AssociationSet Name="FK_Lecon_Eleve" Association="TPAutoEcoleModel.Store.FK_Lecon_Eleve">
+            <End Role="Eleve" EntitySet="Eleve" />
+            <End Role="Lecon" EntitySet="Lecon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lecon_Voiture" Association="TPAutoEcoleModel.Store.FK_Lecon_Voiture">
+            <End Role="Voiture" EntitySet="Voiture" />
+            <End Role="Lecon" EntitySet="Lecon" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Eleve">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="nom" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="prenom" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="adresse" Type="nvarchar" MaxLength="500" />
+          <Property Name="ville" Type="nvarchar" MaxLength="200" />
+          <Property Name="cp" Type="nvarchar" MaxLength="20" />
+          <Property Name="dateInscription" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lecon">
+          <Key>
+            <PropertyRef Name="idEleve" />
+            <PropertyRef Name="idVoiture" />
+          </Key>
+          <Property Name="dateLecon" Type="datetime" Nullable="false" />
+          <Property Name="duree" Type="int" Nullable="false" />
+          <Property Name="estEffectuee" Type="bit" />
+          <Property Name="idEleve" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="idVoiture" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Voiture">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="modele" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="estVoiture" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Lecon_Eleve">
+          <End Role="Eleve" Type="TPAutoEcoleModel.Store.Eleve" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lecon" Type="TPAutoEcoleModel.Store.Lecon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eleve">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lecon">
+              <PropertyRef Name="idEleve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lecon_Voiture">
+          <End Role="Voiture" Type="TPAutoEcoleModel.Store.Voiture" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lecon" Type="TPAutoEcoleModel.Store.Lecon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Voiture">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lecon">
+              <PropertyRef Name="idVoiture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TPAutoEcoleModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="TPAutoEcoleEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Eleve" EntityType="TPAutoEcoleModel.Eleve" />
+          <EntitySet Name="Lecon" EntityType="TPAutoEcoleModel.Lecon" />
+          <EntitySet Name="Voiture" EntityType="TPAutoEcoleModel.Voiture" />
+          <AssociationSet Name="FK_Lecon_Eleve" Association="TPAutoEcoleModel.FK_Lecon_Eleve">
+            <End Role="Eleve" EntitySet="Eleve" />
+            <End Role="Lecon" EntitySet="Lecon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lecon_Voiture" Association="TPAutoEcoleModel.FK_Lecon_Voiture">
+            <End Role="Voiture" EntitySet="Voiture" />
+            <End Role="Lecon" EntitySet="Lecon" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Eleve">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Guid" Name="id" Nullable="false" />
+          <Property Type="String" Name="nom" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="prenom" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="adresse" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ville" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="cp" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="dateInscription" Nullable="false" />
+          <NavigationProperty Name="Lecon" Relationship="TPAutoEcoleModel.FK_Lecon_Eleve" FromRole="Eleve" ToRole="Lecon" />
+        </EntityType>
+        <EntityType Name="Lecon">
+          <Key>
+            <PropertyRef Name="idEleve" />
+            <PropertyRef Name="idVoiture" />
+          </Key>
+          <Property Type="DateTime" Name="dateLecon" Nullable="false" />
+          <Property Type="Int32" Name="duree" Nullable="false" />
+          <Property Type="Boolean" Name="estEffectuee" />
+          <Property Type="Guid" Name="idEleve" Nullable="false" />
+          <Property Type="Guid" Name="idVoiture" Nullable="false" />
+          <NavigationProperty Name="Eleve" Relationship="TPAutoEcoleModel.FK_Lecon_Eleve" FromRole="Lecon" ToRole="Eleve" />
+          <NavigationProperty Name="Voiture" Relationship="TPAutoEcoleModel.FK_Lecon_Voiture" FromRole="Lecon" ToRole="Voiture" />
+        </EntityType>
+        <EntityType Name="Voiture">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Guid" Name="id" Nullable="false" />
+          <Property Type="String" Name="modele" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="estVoiture" Nullable="false" />
+          <NavigationProperty Name="Lecon" Relationship="TPAutoEcoleModel.FK_Lecon_Voiture" FromRole="Voiture" ToRole="Lecon" />
+        </EntityType>
+        <Association Name="FK_Lecon_Eleve">
+          <End Type="TPAutoEcoleModel.Eleve" Role="Eleve" Multiplicity="1" />
+          <End Type="TPAutoEcoleModel.Lecon" Role="Lecon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eleve">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lecon">
+              <PropertyRef Name="idEleve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lecon_Voiture">
+          <End Type="TPAutoEcoleModel.Voiture" Role="Voiture" Multiplicity="1" />
+          <End Type="TPAutoEcoleModel.Lecon" Role="Lecon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Voiture">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lecon">
+              <PropertyRef Name="idVoiture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TPAutoEcoleModelStoreContainer" CdmEntityContainer="TPAutoEcoleEntities" >
+          <EntitySetMapping Name="Eleve">
+            <EntityTypeMapping TypeName="TPAutoEcoleModel.Eleve">
+              <MappingFragment StoreEntitySet="Eleve">
+                <ScalarProperty Name="dateInscription" ColumnName="dateInscription" />
+                <ScalarProperty Name="cp" ColumnName="cp" />
+                <ScalarProperty Name="ville" ColumnName="ville" />
+                <ScalarProperty Name="adresse" ColumnName="adresse" />
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lecon">
+            <EntityTypeMapping TypeName="TPAutoEcoleModel.Lecon">
+              <MappingFragment StoreEntitySet="Lecon">
+                <ScalarProperty Name="idVoiture" ColumnName="idVoiture" />
+                <ScalarProperty Name="idEleve" ColumnName="idEleve" />
+                <ScalarProperty Name="estEffectuee" ColumnName="estEffectuee" />
+                <ScalarProperty Name="duree" ColumnName="duree" />
+                <ScalarProperty Name="dateLecon" ColumnName="dateLecon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Voiture">
+            <EntityTypeMapping TypeName="TPAutoEcoleModel.Voiture">
+              <MappingFragment StoreEntitySet="Voiture">
+                <ScalarProperty Name="estVoiture" ColumnName="estVoiture" />
+                <ScalarProperty Name="modele" ColumnName="modele" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1" >
+        <EntityTypeShape EntityType="TPAutoEcoleModel.Eleve" Width="1.5" PointX="4.875" PointY="1.75" Height="2.5571907552083335" />
+        <EntityTypeShape EntityType="TPAutoEcoleModel.Lecon" Width="1.5" PointX="7.125" PointY="1.75" Height="2.3648893229166656" />
+        <EntityTypeShape EntityType="TPAutoEcoleModel.Voiture" Width="1.5" PointX="9.375" PointY="2" Height="1.7879850260416674" />
+        <AssociationConnector Association="TPAutoEcoleModel.FK_Lecon_Eleve" >
+          <ConnectorPoint PointX="6.375" PointY="2.9324446614583328" />
+          <ConnectorPoint PointX="7.125" PointY="2.9324446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="TPAutoEcoleModel.FK_Lecon_Voiture" >
+          <ConnectorPoint PointX="9.375" PointY="2.8939925130208337" />
+          <ConnectorPoint PointX="8.625" PointY="2.8939925130208337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
